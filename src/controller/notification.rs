@@ -1,7 +1,7 @@
 use rocket::serde::json::Json;
  
 use bambangshop_receiver::Result;
-use crate::model::notification::{self, Notification};
+use crate::model::notification::Notification;
 use crate::model::subscriber::SubscriberRequest;
 use crate::service::notification::NotificationService;
 
@@ -28,3 +28,11 @@ pub fn receive(notification: Json<Notification>) -> Result<Json<Notification>> {
         Err(e) => Err(e)
     };
 } 
+
+#[get("/")]
+pub fn list() -> Result<Json<Vec<String>>> {
+    return match NotificationService::list_messages() {
+        Ok(f) => Ok(Json::from(f)),
+        Err(e) => Err(e)
+    };
+}
